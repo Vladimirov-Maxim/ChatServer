@@ -1,3 +1,5 @@
+package ChatServer;
+
 import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
@@ -10,6 +12,7 @@ import java.net.Socket;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.text.BadLocationException;
 
 public class NetClient extends JFrame implements KeyListener {
 
@@ -77,7 +80,7 @@ public class NetClient extends JFrame implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {}
-	@Override 
+	@Override
 	public void keyReleased(KeyEvent arg0) {}
 
 	@Override
@@ -85,12 +88,23 @@ public class NetClient extends JFrame implements KeyListener {
 		// отправляем напечатанный символ в сеть и на экран
 		out.print(arg0.getKeyChar());
 		out.flush();
-		
+
 		System.out.print((int)(arg0.getKeyChar()));
 		addCharToTextArea(arg0.getKeyChar());
 	}
 
 	void addCharToTextArea(char c) {
+
+		if (c == '\b') {
+
+			try {
+				textArea.getDocument().remove(textArea.getDocument().getLength() - 1, 1);
+				return;
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+		}
+
 		textArea.append(c + "");
 		textArea.setCaretPosition(textArea.getDocument().getLength());
 	}

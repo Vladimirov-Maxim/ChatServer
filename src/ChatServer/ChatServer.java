@@ -60,8 +60,7 @@ public class ChatServer implements Runnable{
 
     public static void main(String[] args) throws IOException {
 
-        //new Thread(new ChatServer.ChatServer()).start();
-        new ChatServer().run();
+        new Thread(new ChatServer()).start();
 
     }
 
